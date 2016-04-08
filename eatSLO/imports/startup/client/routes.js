@@ -5,25 +5,25 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import '../../ui/layouts/Layout.html';
 import '../../ui/pages/home.html';
 import '../../ui/pages/about.html';
-import '../../ui/pages/network.js';
+import '../../ui/pages/network.js'; // correct js loading example
 import '../../ui/components/nav.html';
 
 
 
 FlowRouter.route('/', {
-  action: function() {
+  action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "homePage"});
   }
 });
 
 FlowRouter.route('/about', {
-  action: function() {
+  action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "aboutPage"});
   }
 });
 
 FlowRouter.route('/network', {
-  action: function() {
+  action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "networkPage"});
   }
 });

@@ -1,0 +1,20 @@
+<template name="networkCard">
+   <div class="ui fluid card" id="detailCard">
+      <div class="image">
+         <img src="/images/slo-pic.JPG">
+      </div>
+      <div class="content">
+         <a class="header">{{activeCard.name}}</a>
+         <div class="meta">
+            {{activeCard.accountType}}
+         </div>
+         <div class="description">
+            <a id="viewNetwork"> View Network</a>
+            {{activeCard.profile.description}}
+         </div>
+      </div>
+      <div class="extra content">
+         <span> {{activeCard.city}} <a id="closeLink"> Close Card</a> </span>
+      </div>
+   </div>
+</template>

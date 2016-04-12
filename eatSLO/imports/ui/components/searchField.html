@@ -1,0 +1,26 @@
+<template name="searchField">
+  <div class="page-header clearfix">
+    <h4 class="pull-left">Albums</h4>
+    <div class="pull-right">
+      <input type="text" name="search" class="form-control" width="250px" placeholder="Find sup, grow, prep...">
+    </div>
+  </div>
+
+  <ul class="list-group">
+    {{#if searching}}
+      {{> loading}}
+    {{else}}
+      {{#each members}}
+        <li class="list-group-item clearfix">
+          <span class="pull-left">{{name}} is a <strong>{{accountType}}</strong></span>
+        </li>
+      {{else}}
+        <p class="alert alert-warning">Nothing found for {{query}}. Sorry, bub.</p>
+      {{/each}}
+    {{/if}}
+  </ul>
+</template>
+
+<template name="loading">
+  <p>Loading...</p>
+</template>

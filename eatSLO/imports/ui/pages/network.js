@@ -1,11 +1,23 @@
 import './network.html';
 
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { NetworkMembers } from '../../api/networkMembers.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../components/map.js';
+import '../components/mapFilter.js';
+import '../components/networkCard.js';
 
-Template.networkPage.onCreated(function networkPageOnCreated() {
- 	Meteor.subscribe('networkMembers');
+// these are used to manage the component states instead of polluting the Session variable namespace
+const networkPageVars = {
+  'activeCardId': new ReactiveVar(),
+  'activeCardVisible': new ReactiveVar(false),
+  'memberNetwork': [],
+};
+
+Template.networkPage.helpers({
+  'displayCardVisible': () => {
+    return networkPageVars.activeCardVisible.get();
+  },
 });
+
+export { networkPageVars };

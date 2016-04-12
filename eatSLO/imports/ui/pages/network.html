@@ -1,6 +1,17 @@
 <template name="networkPage">
-  <p>
-    This will hap a map
-  </p>
-  {{> networkMap options=mapOptions}}
+   <div class="container">
+      <div class="map-container">
+         <div>
+            {{#if displayCardVisible}}
+               {{> networkCard}}
+            {{/if}}
+         </div>
+         {{> networkMap options=mapOptions}}
+         <div>
+            {{> mapFilter}}
+         </div>
+      </div>
+   </div>
+   
+  
 </template>

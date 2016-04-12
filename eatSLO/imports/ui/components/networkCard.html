@@ -6,15 +6,20 @@
       <div class="content">
          <a class="header">{{activeCard.name}}</a>
          <div class="meta">
-            {{activeCard.accountType}}
+            {{activeCard.city}}
          </div>
          <div class="description">
-            <a id="viewNetwork"> View Network</a>
-            {{activeCard.profile.description}}
+            <p>{{activeCard.accountType}}</p>
+            <p>
+               {{activeCard.profile.description}}
+            </p>
          </div>
       </div>
       <div class="extra content">
-         <span> {{activeCard.city}} <a id="closeLink"> Close Card</a> </span>
+         <span class="right floated">
+            <a id="closeLink"> Close Card</a>
+         </span>
+         <span>  <a id="viewNetwork"> View Network</a> </span>
       </div>
    </div>
 </template>

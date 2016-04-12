@@ -33,7 +33,6 @@ if (Meteor.isServer) {
       projection.limit = 100;
     }
 
-    console.log(query);
     return NetworkMembers.find( query, projection );
   });
 

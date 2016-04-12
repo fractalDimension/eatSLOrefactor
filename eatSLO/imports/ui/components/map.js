@@ -58,7 +58,7 @@ Template.networkMap.onCreated(function()
 
         google.maps.event.addListener( marker, 'click', function() 
         {
-          $('#detailCard').slideToggle('slow');
+          //$('#detailCard').slideToggle('slow');
 
           // set the data context and create an instance of the card
           networkPageVars.activeCardId.set(document._id);
@@ -100,11 +100,19 @@ const drawNetwork = (memberId, memberArray, memberLat, memberLng) => {
       {'lat': memberLat, 'lng': memberLng},
     ];
 
+    const lineArrow = {
+      'path': google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+    };
+
     const receivesLine = new google.maps.Polyline({
       'path': lineCoordinates,
       'strokeColor': '#FF0000',
       'strokeOpacity': 1.0,
       'strokeWeight': 2,
+      'icons': [{
+        'icon': lineArrow,
+        'offset': '80%',
+      }],
     });
 
     // draw the line on the map

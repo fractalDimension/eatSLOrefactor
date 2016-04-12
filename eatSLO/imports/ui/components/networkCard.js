@@ -2,7 +2,6 @@ import './networkCard.html';
 
 import { Template } from 'meteor/templating';
 import { NetworkMembers } from '../../api/networkMembers.js';
-import { Session } from 'meteor/session';
 import { drawNetwork, hideNetwork } from './map.js';
 import { networkPageVars } from '../pages/network.js';
 

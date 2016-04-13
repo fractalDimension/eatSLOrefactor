@@ -62,7 +62,6 @@ Template.networkMap.onCreated(function()
 
           // set the data context and create an instance of the card
           networkPageVars.activeCardId.set(document._id);
-          // networkPageVars.activeCardVisible.set(true);
 
           infoWindow.setContent( this.info );
           infoWindow.open( map.instance, this );
@@ -83,43 +82,62 @@ Template.networkMap.onCreated(function()
   });
 });
 
-const drawNetwork = (memberId, memberArray, memberLat, memberLng) => {
-  console.log('drawNetwork');
-  console.log(memberArray);
+const drawNetwork = (memberDocument, memberArray, arrowType) => {
+  
+  var arrowProperties;
 
-  // cycle thru the array of members and look up the coordinates to construct the networkLines array
-  _.each(memberArray, (organization) => {
-    console.log(organization);
-    const fromOrgDocument = NetworkMembers.findOne({'name': organization});
+  if (memberArray) {
+    if (arrowType === 'gives') {
+      arrowProperties = {
+        'arrowColor': '#007f00',
+        'lineArrow': {
+          'path': google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+        },
+        'offsetPercent': '20%',
+      };
+    } else {
+      arrowProperties = {
+        'arrowColor': '#FF0000',
+        'lineArrow': {
+          'path': google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+        },
+        'offsetPercent': '80%',
+      };
+    }
 
-    const fromOrgLat = fromOrgDocument.lat;
-    const fromOrgLng = fromOrgDocument.lng;
+    // cycle thru the array of members and look up the coordinates to construct the networkLines array
+    _.each(memberArray, (organization) => {
+      const fromOrgDocument = NetworkMembers.findOne({'name': organization});
 
-    const lineCoordinates = [
-      {'lat': fromOrgLat, 'lng': fromOrgLng},
-      {'lat': memberLat, 'lng': memberLng},
-    ];
+      if (fromOrgDocument) {
+        const fromOrgLat = fromOrgDocument.lat;
+        const fromOrgLng = fromOrgDocument.lng;
 
-    const lineArrow = {
-      'path': google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-    };
+        const lineCoordinates = [
+          {'lat': fromOrgLat, 'lng': fromOrgLng},
+          {'lat': memberDocument.lat, 'lng': memberDocument.lng},
+        ];
 
-    const receivesLine = new google.maps.Polyline({
-      'path': lineCoordinates,
-      'strokeColor': '#FF0000',
-      'strokeOpacity': 1.0,
-      'strokeWeight': 2,
-      'icons': [{
-        'icon': lineArrow,
-        'offset': '80%',
-      }],
+        const receivesLine = new google.maps.Polyline({
+          'path': lineCoordinates,
+          'strokeColor': arrowProperties.arrowColor,
+          'strokeOpacity': 1.0,
+          'strokeWeight': 2,
+          'icons': [{
+            'icon': arrowProperties.lineArrow,
+            'offset': arrowProperties.offsetPercent,
+          }],
+        });
+
+        // draw the line on the map
+        receivesLine.setMap(GoogleMaps.maps.networkMap.instance);
+        // store the map
+        networkPageVars.memberNetwork.push(receivesLine);
+      } else {
+        console.log('could not find: ' + organization);
+      }
     });
-
-    // draw the line on the map
-    receivesLine.setMap(GoogleMaps.maps.networkMap.instance);
-    // store the map
-    networkPageVars.memberNetwork.push(receivesLine);
-  });
+  }
 };
 
 const hideNetwork = () => {

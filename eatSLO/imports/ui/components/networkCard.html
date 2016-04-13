@@ -19,7 +19,20 @@
          <span class="right floated">
             <a id="closeLink"> Close Card</a>
          </span>
-         <span>  <a id="viewNetwork"> View Network</a> </span>
+         <span>  
+            {{#if receivesPresent}}
+               <a id="viewReceives"> View Receives</a> 
+            {{else}}
+               no receives 
+            {{/if}}
+         </span>
+         <span>  
+            {{#if givesPresent}}
+               <a id="viewGives"> View Gives</a> 
+            {{else}}
+               no gives
+            {{/if}}
+         </span>
       </div>
    </div>
 </template>

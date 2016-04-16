@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: CorelDRAW X5 -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xml:space="preserve"
+   width="20"
+   height="29.999998"
+   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   viewBox="0 0 28.231047 42.344495"
+   id="svg3698"
+   version="1.1"
+   inkscape:version="0.91 r"
+   sodipodi:docname="supplier_pin.svg"><metadata
+     id="metadata3721"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="972"
+     id="namedview3719"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="24.96667"
+     inkscape:cx="10"
+     inkscape:cy="15.009489"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3698" /><defs
+     id="defs3700"><style
+       type="text/css"
+       id="style3702"><![CDATA[
+    .fil2 {fill:#FF9900}
+    .fil1 {fill:white}
+    .fil0 {fill:#FF9900;fill-rule:nonzero}
+   ]]></style></defs><g
+     id="Layer_x0020_1"
+     transform="matrix(0.07201798,0,0,0.07177384,0,-0.01443085)"><metadata
+       id="CorelCorpID_0Corel-Layer" /><path
+       class="fil0"
+       d="M 196,590 C 245,393 392,295 392,197 392,99 343,0 196,0 49,0 0,98 0,197 0,295 147,394 196,590 Z"
+       id="path3706"
+       inkscape:connector-curvature="0"
+       style="fill:#ff9900;fill-rule:nonzero" /><g
+       id="_4698128"><path
+         class="fil1"
+         d="m 66,163 c 0,23 0,47 0,70 0,35 2,30 27,43 29,15 69,33 95,47 16,9 28,-1 50,-13 22,-11 48,-25 71,-35 31,-15 26,-9 26,-81 31,-16 36,-9 18,-46 -5,-10 -9,-19 -14,-28 -6,-10 -9,-19 -20,-23 -10,-4 -19,-9 -29,-14 -15,-7 -80,-41 -86,-42 -11,-1 -48,20 -59,26 -19,9 -38,19 -57,28 -25,13 -25,16 -41,44 -4,6 -15,22 -11,29 5,10 24,-4 30,-7 z"
+         id="path3709"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff" /><polygon
+         class="fil2"
+         points="89,249 188,300 188,180 89,131 "
+         id="polygon3711"
+         style="fill:#ff9900" /><path
+         class="fil2"
+         d="m 216,179 19,39 c 4,-1 97,-47 101,-50 -2,-5 -11,-22 -14,-28 l -5,-9 c 0,0 0,0 0,-1 0,0 0,0 0,-1 l -100,49 z"
+         id="path3713"
+         inkscape:connector-curvature="0"
+         style="fill:#ff9900" /><path
+         class="fil2"
+         d="m 212,225 0,75 100,-50 0,-43 c -6,2 -43,21 -53,26 -5,2 -23,12 -27,13 -13,2 -14,-13 -20,-20 z"
+         id="path3715"
+         inkscape:connector-curvature="0"
+         style="fill:#ff9900" /><path
+         class="fil2"
+         d="m 200,161 96,-47 C 292,110 257,94 248,90 232,82 216,74 200,66 l -95,46 95,49 z"
+         id="path3717"
+         inkscape:connector-curvature="0"
+         style="fill:#ff9900" /></g></g></svg>

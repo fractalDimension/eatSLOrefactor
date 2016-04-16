@@ -43,6 +43,28 @@ Template.networkMap.onCreated(function()
       'added': function(document)
       {
         // console.log("doc added: ");
+        
+        switch (document.accountType) {
+          case 'preparer':
+            var urlString = '/images/markers/preparer_pin.svg';
+            break;
+          case 'grower':
+            var urlString = '/images/markers/grower_pin.svg';
+            break;
+          case 'supplier':
+            var urlString = '/images/markers/supplier_pin.svg';
+            break;
+          default:
+            console.log('no account type for marker found');
+        }
+
+        const image = {
+          'url': urlString,
+          'size': new google.maps.Size(20, 30),
+          'origin': new google.maps.Point(0, 0),
+          'anchor': new google.maps.Point(10, 30),
+          
+        };
 
         // create marker for the document
         const marker = new google.maps.Marker(
@@ -50,8 +72,10 @@ Template.networkMap.onCreated(function()
           'animation': google.maps.Animation.DROP,
           'position': new google.maps.LatLng(document.lat, document.lng),
           'map': map.instance,
+          'icon': image,
           'id': document._id,
-          'info': '<h2>' + document.name + '<h2>' + '<br />' + '<a id="openCardLink">Open Card</a>'
+
+          'info': '<h2><a id="openCardLink">' + document.name + '</a></h2>',
         });
 
         const infoWindow = new google.maps.InfoWindow();
@@ -105,6 +129,9 @@ const drawNetwork = (memberDocument, memberArray, arrowType) => {
       };
     }
 
+    // create object to set the bounds of the viewable map
+    const bounds = new google.maps.LatLngBounds();
+
     // cycle thru the array of members and look up the coordinates to construct the networkLines array
     _.each(memberArray, (organization) => {
       const fromOrgDocument = NetworkMembers.findOne({'name': organization});
@@ -133,10 +160,23 @@ const drawNetwork = (memberDocument, memberArray, arrowType) => {
         receivesLine.setMap(GoogleMaps.maps.networkMap.instance);
         // store the map
         networkPageVars.memberNetwork.push(receivesLine);
+        // include the connected member in the bounds
+        const orgPosition = new google.maps.LatLng(fromOrgLat, fromOrgLng);
+        bounds.extend(orgPosition);
       } else {
         console.log('could not find: ' + organization);
       }
     });
+
+    // render the map with the bounds of connected network
+    console.log('drawing bounds');
+    if (bounds !== null) {
+      // add main member
+      const orgPosition = new google.maps.LatLng(memberDocument.lat, memberDocument.lng);
+      bounds.extend(orgPosition);
+      // render map
+      GoogleMaps.maps.networkMap.instance.fitBounds(bounds);
+    }
   }
 };
 

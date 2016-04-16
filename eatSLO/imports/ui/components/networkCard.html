@@ -1,9 +1,11 @@
 <template name="networkCard">
    <div class="ui fluid card" id="detailCard">
-      <div class="image">
-         <img src="/images/slo-pic.JPG">
-      </div>
       <div class="content">
+         
+         <section class="slick-slider">
+            <img class="slider-image">
+         </section>
+
          <a class="header">{{activeCard.name}}</a>
          <div class="meta">
             {{activeCard.city}}
@@ -16,21 +18,17 @@
          </div>
       </div>
       <div class="extra content">
-         <span class="right floated">
+         <span>
             <a id="closeLink"> Close Card</a>
          </span>
-         <span>  
+         <span class="right floated">  
             {{#if receivesPresent}}
-               <a id="viewReceives"> View Receives</a> 
-            {{else}}
-               no receives 
+               <button class="ui small button" id="viewReceives">Receives</button>
             {{/if}}
          </span>
-         <span>  
+         <span class="right floated">  
             {{#if givesPresent}}
-               <a id="viewGives"> View Gives</a> 
-            {{else}}
-               no gives
+               <button class="ui small button" id="viewGives">Gives</button>
             {{/if}}
          </span>
       </div>

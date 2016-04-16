@@ -4,9 +4,22 @@ import { Template } from 'meteor/templating';
 import { NetworkMembers } from '../../api/networkMembers.js';
 import { drawNetwork, hideNetwork } from './map.js';
 import { networkPageVars } from '../pages/network.js';
+import $ from 'jquery';
+import { slick } from 'slick-carousel';
 
 Template.networkCard.onRendered( () => {
   console.log('im alive');
+  /*
+  $('.slick-slider').slick({
+    'slidesToShow': 1,
+    'slidesToScroll': 1,
+    'dots': false,
+    'arrows': false,
+    'infinite': false,
+    'lazyLoad': 'ondemand',
+  });
+  */
+  
 });
 
 Template.networkCard.helpers(
@@ -45,7 +58,6 @@ Template.networkCard.events({
 
     let memberArray = memberDocument.network.receives.name;
 
-    console.log(memberArray);
     // subscribe and draw the map once the subscription is ready
     template.subscribe('connectedMembers', memberArray, () => {
       drawNetwork(memberDocument, memberArray, 'receives');

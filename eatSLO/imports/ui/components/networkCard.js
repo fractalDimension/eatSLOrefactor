@@ -9,7 +9,7 @@ import { slick } from 'slick-carousel';
 
 Template.networkCard.onRendered( () => {
   console.log('im alive');
-  /*
+  
   $('.slick-slider').slick({
     'slidesToShow': 1,
     'slidesToScroll': 1,
@@ -18,7 +18,7 @@ Template.networkCard.onRendered( () => {
     'infinite': false,
     'lazyLoad': 'ondemand',
   });
-  */
+//
   
 });
 

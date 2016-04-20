@@ -3,10 +3,10 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 // Import to load these templates (the js files should load the hmtl)
 import '../../ui/layouts/Layout.html';
-import '../../ui/pages/home.html';
+import '../../ui/pages/home.js';
 import '../../ui/pages/about.html';
 import '../../ui/pages/network.js'; // correct js loading example
-import '../../ui/pages/search.js'; 
+import '../../ui/pages/search.js';
 import '../../ui/components/nav.html';
 
 

@@ -1,11 +1,21 @@
 <template name="networkCard">
    <div class="ui fluid card" id="detailCard">
-      <div class="content">
-         
+      
+      <div class="slick-container">
          <section class="slick-slider">
-            <img class="slider-image">
+            <div>
+               <img class="slick-image" data-lazy="http://lorempixel.com/640/360/nature">
+            </div>
+            <div>
+               <img class="slick-image" data-lazy="http://lorempixel.com/640/360/animals">
+            </div>
+            <div>
+               <img class="slick-image" data-lazy="http://lorempixel.com/640/360/cats">
+            </div>
          </section>
-
+      </div>
+      
+      <div class="content">
          <a class="header">{{activeCard.name}}</a>
          <div class="meta">
             {{activeCard.city}}

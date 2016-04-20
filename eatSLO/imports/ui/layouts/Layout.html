@@ -10,7 +10,9 @@
 		<div class="main container">
 			<!-- the flow-router will send the apropriate templates here-->
 			{{>Template.dynamic template=top}}
-			{{>Template.dynamic template=content}}
+			<div class="content-Wrapper">
+				{{>Template.dynamic template=content}}
+			</div>
 		</div>
 	</main>
 </template>

@@ -37,6 +37,8 @@ Template.networkMap.onCreated(function()
 
     // place to store map markers
     const markers = {};
+    // place to store open info window
+    const infoWindows = {};
 
     NetworkMembers.find().observe(
     {
@@ -75,14 +77,23 @@ Template.networkMap.onCreated(function()
           'icon': image,
           'id': document._id,
 
-          'info': '<h2><a id="openCardLink">' + document.name + '</a></h2>',
+          'info': '<h3><a id="openCardLink">' + document.name + '</a></h3>',
         });
 
         const infoWindow = new google.maps.InfoWindow();
 
+        markers[document._id] = marker;
+        infoWindows[document._id] = infoWindow;
+
+
         google.maps.event.addListener( marker, 'click', function() 
         {
           //$('#detailCard').slideToggle('slow');
+          
+          // close any open infoWindow
+          _.each(infoWindows, (oneWindow) => {
+            oneWindow.close();
+          });
 
           // set the data context and create an instance of the card
           networkPageVars.activeCardId.set(document._id);
@@ -91,7 +102,6 @@ Template.networkMap.onCreated(function()
           infoWindow.open( map.instance, this );
         });
 
-        markers[document._id] = marker;
       },
       'removed': function(oldDocument) 
       {

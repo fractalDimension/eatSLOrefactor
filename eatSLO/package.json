@@ -5,6 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0"
+    "jquery": "^2.2.3",
+    "meteor-node-stubs": "~0.2.0",
+    "slick-carousel": "^1.5.9"
   }
 }

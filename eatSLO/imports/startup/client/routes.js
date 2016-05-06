@@ -7,6 +7,7 @@ import '../../ui/pages/home.js';
 import '../../ui/pages/about.html';
 import '../../ui/pages/network.js'; // correct js loading example
 import '../../ui/pages/search.js';
+import '../../ui/pages/addMember.html';
 import '../../ui/components/nav.html';
 
 
@@ -32,5 +33,11 @@ FlowRouter.route('/network', {
 FlowRouter.route('/search', {
   action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "searchPage"});
+  }
+});
+
+FlowRouter.route('/addMember', {
+  action() {
+    BlazeLayout.render("mainLayout", {top: "navBar", content: "addMemberPage"});
   }
 });

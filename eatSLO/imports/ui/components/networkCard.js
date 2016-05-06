@@ -2,24 +2,31 @@ import './networkCard.html';
 
 import { Template } from 'meteor/templating';
 import { NetworkMembers } from '../../api/networkMembers.js';
-import { drawNetwork, hideNetwork } from './map.js';
+import { drawNetwork, hideNetwork, resizeMap, centerOnActiveCard} from './map.js';
 import { networkPageVars } from '../pages/network.js';
 import $ from 'jquery';
-import { slick } from 'slick-carousel';
+import 'meteor/semantic:ui';
+import '/client/lib/semantic-ui/definitions/modules/dropdown.js';
 
 Template.networkCard.onRendered( () => {
-  console.log('im alive');
-  
-  $('.slick-slider').slick({
-    'slidesToShow': 1,
-    'slidesToScroll': 1,
-    'dots': false,
-    'arrows': false,
-    'infinite': false,
-    'lazyLoad': 'ondemand',
+  // console.log('im rendered');
+  $('#detail-card').slideToggle('slow', function() {
+    $('.slick-slider').slick({
+      'slidesToShow': 1,
+      'slidesToScroll': 1,
+      'dots': false,
+      'arrows': false,
+      'infinite': false,
+      'lazyLoad': 'ondemand',
+    });
+    resizeMap();
+    centerOnActiveCard();
   });
-//
-  
+  // note 'this' is necessary
+  this.$('.cardDropdown').dropdown({
+    'keepOnScreen': true,
+  });
+  $('#mapFilterDiv').slideToggle('slow');
 });
 
 Template.networkCard.helpers(
@@ -48,9 +55,15 @@ Template.networkCard.helpers(
 
 Template.networkCard.events({
   'click #closeLink': () => {
-    $('#detailCard').slideToggle('slow');
-    networkPageVars.activeCardVisible.set(false);
-    hideNetwork();
+    $('#mapFilterDiv').slideToggle('slow');
+    $('#detail-card').slideToggle('slow', function(){
+      resizeMap();
+      networkPageVars.activeCardVisible.set(false);
+      hideNetwork();
+    });
+  },
+  'click #centerLink': () => {
+    centerOnActiveCard();
   },
   'click #viewReceives': (event, template) => {
     // TODO add check to see if 'receives' is not null
@@ -69,7 +82,7 @@ Template.networkCard.events({
 
     let memberArray = memberDocument.network.gives.name;
 
-    console.log(memberArray);
+    // console.log(memberArray);
     // subscribe and draw the map once the subscription is ready
     template.subscribe('connectedMembers', memberArray, () => {
       drawNetwork(memberDocument, memberArray, 'gives');

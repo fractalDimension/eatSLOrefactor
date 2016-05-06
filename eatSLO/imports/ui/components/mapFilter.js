@@ -3,6 +3,9 @@ import './mapFilter.html';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
+import { redrawBounds} from './map.js';
+import { networkPageVars } from '../pages/network.js';
+import { NetworkMembers } from '../../api/networkMembers.js';
 
 Template.mapFilter.onCreated( function() 
 {
@@ -16,14 +19,17 @@ Template.mapFilter.onCreated( function()
    {
       growerChecked: false,
       supplierChecked: false,
-      preparerChecked: false
+      preparerChecked: false,
    });
 
-   //TODO remove the timeout
    template.autorun( () => {
-   	template.subscribe( 'networkSearch', template.searchQuery.get() );
+   	template.subscribe( 'networkSearch', template.searchQuery.get(), () => {
+         if (networkPageVars.mapReady.get() ) {
+            redrawBounds();
+         };
+      });
    });
-
+   
 });
 
 Template.mapFilter.events(

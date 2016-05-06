@@ -1,18 +1,17 @@
 <template name="networkPage">
    <div class="ui container" id="network-container">
-      <div class="ui centered grid">
-         <div class="column">
-            <div class="map-container">
-               <div>
-                  {{#if displayCardVisible}}
-                     {{> networkCard}}
-                  {{/if}}
-               </div>
-               {{> networkMap options=mapOptions}}
-               <div>
-                  {{> mapFilter}}
-               </div>
-            </div>
+      <div id="equal-height">
+         <div id="card-container">
+            {{#if displayCardVisible}}
+               {{> networkCard}}
+            {{/if}}
+         </div>
+            
+         <div class="map-container">
+            {{> networkMap options=mapOptions}}
+         </div>
+         <div>
+            {{> mapFilter}}
          </div>
       </div>
    </div>

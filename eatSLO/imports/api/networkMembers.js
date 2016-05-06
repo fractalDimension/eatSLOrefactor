@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import 'meteor/aldeed:collection2';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { check } from 'meteor/check';
 
@@ -177,21 +178,25 @@ let NetworkMembersSchema = new SimpleSchema({
   'network.receives': {
     type: Object,
     minCount: 1,
-    label: 'Who you receive from.'
+    label: 'Who you receive from.',
+    'optional': true,
   },
   'network.gives': {
     type: Object,
     minCount: 1,
-    label: 'Who you give to.'
+    label: 'Who you give to.',
+    'optional': true,
   },
   'network.receives.name': {
-    type: String,
-    label: 'Receiver name.'
+    type: [String],
+    label: 'Receiver name.',
+    'optional': true
   },
   'network.gives.name': {
-    type: String,
-    label: 'Giver name.'
+    type: [String],
+    label: 'Giver name.',
+    'optional': true,
   },
 });
 
-//NetworkMembers.attachSchema( NetworkMembersSchema );
+NetworkMembers.attachSchema( NetworkMembersSchema );

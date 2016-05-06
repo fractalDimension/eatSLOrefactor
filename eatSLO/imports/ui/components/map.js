@@ -34,6 +34,7 @@ Template.networkMap.onCreated(function()
   GoogleMaps.ready('networkMap', function(map)
   {
     console.log('Map ready!');
+    networkPageVars.mapReady.set(true);
 
     // place to store map markers
     const markers = {};
@@ -84,12 +85,10 @@ Template.networkMap.onCreated(function()
 
         markers[document._id] = marker;
         infoWindows[document._id] = infoWindow;
-
-
+        networkPageVars.boundaryPoints[document._id] = new google.maps.LatLng(document.lat, document.lng);
+        
         google.maps.event.addListener( marker, 'click', function() 
         {
-          //$('#detailCard').slideToggle('slow');
-          
           // close any open infoWindow
           _.each(infoWindows, (oneWindow) => {
             oneWindow.close();
@@ -103,16 +102,19 @@ Template.networkMap.onCreated(function()
         });
 
       },
+
       'removed': function(oldDocument) 
       {
-        // console.log("doc removed");
+        // remove point from bounds
+        delete networkPageVars.boundaryPoints[oldDocument._id];
 
         // remove marker from the map
         markers[oldDocument._id].setMap(null);
 
         delete markers[oldDocument._id];
-      }, 
+      },
     });
+
   });
 });
 
@@ -179,12 +181,14 @@ const drawNetwork = (memberDocument, memberArray, arrowType) => {
     });
 
     // render the map with the bounds of connected network
-    console.log('drawing bounds');
+    //console.log('drawing bounds');
     if (bounds !== null) {
       // add main member
       const orgPosition = new google.maps.LatLng(memberDocument.lat, memberDocument.lng);
       bounds.extend(orgPosition);
+      
       // render map
+      resizeMap();
       GoogleMaps.maps.networkMap.instance.fitBounds(bounds);
     }
   }
@@ -201,4 +205,31 @@ const hideNetwork = () => {
   networkPageVars.memberNetwork = [];
 };
 
-export { drawNetwork, hideNetwork };
+const resizeMap = () => {
+  console.log('resized');
+  // let the map know the div changed size
+  google.maps.event.trigger(GoogleMaps.maps.networkMap.instance, 'resize');
+};
+
+const redrawBounds = () => {
+  // google bounds object to hold points
+  const bounds = new google.maps.LatLngBounds();
+
+  _.each(networkPageVars.boundaryPoints, (boundaryPoint) => {
+    //console.log(boundaryPoint);
+    // add each bound to the google object
+    bounds.extend(boundaryPoint);
+  });
+
+  // render map with bounds
+  console.log("bounds drawn");
+  GoogleMaps.maps.networkMap.instance.fitBounds(bounds);
+};
+
+const centerOnActiveCard = () => {
+  const activeCardDocument = NetworkMembers.findOne({'_id': networkPageVars.activeCardId.get()});
+  const centerLatLng = new google.maps.LatLng(activeCardDocument.lat, activeCardDocument.lng);
+  GoogleMaps.maps.networkMap.instance.setCenter(centerLatLng);
+};
+
+export { drawNetwork, hideNetwork, resizeMap, redrawBounds, centerOnActiveCard};

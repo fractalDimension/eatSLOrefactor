@@ -1,10 +1,10 @@
 <template name="networkCard">
-   <div class="ui fluid card" id="detailCard">
+   <div class="ui fluid card" id="detail-card" style="display:none;">
       
       <div class="slick-container">
          <section class="slick-slider">
             <div>
-               <img class="slick-image" data-lazy="http://lorempixel.com/640/360/nature">
+               <img class="slick-image" data-lazy="http://lorempixel.com/640/360/city">
             </div>
             <div>
                <img class="slick-image" data-lazy="http://lorempixel.com/640/360/animals">
@@ -20,6 +20,26 @@
          <div class="meta">
             {{activeCard.city}}
          </div>
+      </div>
+      <div class="content">  
+         <div class="ui dropdown icon item cardDropdown">
+            <i class="wrench icon"></i>
+            <div class="left menu">
+               <div class="item">Thing 1</div>
+               <div class="item">Cool</div>
+               <div class="item">Amazing</div>
+            </div>
+         </div>
+         <span class="right floated">  
+            {{#if receivesPresent}}
+               <button class="ui small button" id="viewReceives">Receives</button>
+            {{/if}}
+            {{#if givesPresent}}
+               <button class="ui small button" id="viewGives">Gives</button>
+            {{/if}}
+         </span>
+      </div>
+      <div class="content">
          <div class="description">
             <p>{{activeCard.accountType}}</p>
             <p>
@@ -29,17 +49,7 @@
       </div>
       <div class="extra content">
          <span>
-            <a id="closeLink"> Close Card</a>
-         </span>
-         <span class="right floated">  
-            {{#if receivesPresent}}
-               <button class="ui small button" id="viewReceives">Receives</button>
-            {{/if}}
-         </span>
-         <span class="right floated">  
-            {{#if givesPresent}}
-               <button class="ui small button" id="viewGives">Gives</button>
-            {{/if}}
+            <a id="closeLink"> Close Card</a> <a id="centerLink"> Center</a>
          </span>
       </div>
    </div>

@@ -3,7 +3,7 @@ import './mapFilter.html';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
-import { redrawBounds} from './map.js';
+import { mapUtils } from './map/mapUtils.js';
 import { networkPageVars } from '../pages/network.js';
 import { NetworkMembers } from '../../api/networkMembers.js';
 
@@ -25,11 +25,11 @@ Template.mapFilter.onCreated( function()
    template.autorun( () => {
    	template.subscribe( 'networkSearch', template.searchQuery.get(), () => {
          if (networkPageVars.mapReady.get() ) {
-            redrawBounds();
+            mapUtils.redrawBounds();
          };
       });
    });
-   
+
 });
 
 Template.mapFilter.events(

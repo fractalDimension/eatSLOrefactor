@@ -2,8 +2,9 @@ import './map.html';
 
 import { Template } from 'meteor/templating';
 import { GoogleMaps } from 'meteor/dburles:google-maps';
-import { NetworkMembers } from '../../api/networkMembers.js';
-import { networkPageVars } from '../pages/network.js';
+import { NetworkMembers } from '../../../api/networkMembers.js';
+import { networkPageVars } from '../../pages/network.js';
+import { mapUtils } from './mapUtils.js';
 
 Template.networkMap.helpers(
 {
@@ -27,6 +28,34 @@ Template.networkMap.events({
   'click #openCardLink': () => {
     networkPageVars.activeCardVisible.set(true);
   },
+  'click #viewReceives': (event, template) => {
+    // TODO add check to see if 'receives' is not null
+    let memberDocument = NetworkMembers.findOne({'_id': networkPageVars.activeCardId.get()});
+
+    let memberArray = memberDocument.network.receives.name;
+
+    // clear network if one is drawn
+    mapUtils.hideNetwork();
+
+    // subscribe and draw the map once the subscription is ready
+    template.subscribe('connectedMembers', memberArray, () => {
+      mapUtils.drawNetwork(memberDocument, memberArray, 'receives');
+    });
+  },
+  'click #viewGives': (event, template) => {
+    // TODO add check to see if 'receives' is not null
+    let memberDocument = NetworkMembers.findOne({'_id': networkPageVars.activeCardId.get()});
+
+    let memberArray = memberDocument.network.gives.name;
+
+    // clear network if one is drawn
+    mapUtils.hideNetwork();
+
+    // subscribe and draw the map once the subscription is ready
+    template.subscribe('connectedMembers', memberArray, () => {
+      mapUtils.drawNetwork(memberDocument, memberArray, 'gives');
+    });
+  },
 });
 
 Template.networkMap.onCreated(function()
@@ -38,8 +67,8 @@ Template.networkMap.onCreated(function()
 
     // place to store map markers
     const markers = {};
-    // place to store open info window
-    const infoWindows = {};
+    // only one info window declared and open at a time
+    const infoWindow = new google.maps.InfoWindow();
 
     NetworkMembers.find().observe(
     {
@@ -78,26 +107,21 @@ Template.networkMap.onCreated(function()
           'icon': image,
           'id': document._id,
 
-          'info': '<h3><a id="openCardLink">' + document.name + '</a></h3>',
+          // 'info': '<h3><a id="openCardLink">' + document.name + '</a></h3> <button class="ui small button" id="viewReceives">Receives</button>',
         });
 
-        const infoWindow = new google.maps.InfoWindow();
-
         markers[document._id] = marker;
-        infoWindows[document._id] = infoWindow;
+        
         networkPageVars.boundaryPoints[document._id] = new google.maps.LatLng(document.lat, document.lng);
+
+        const contentString = mapUtils.createInfoWindowContent(document);
         
         google.maps.event.addListener( marker, 'click', function() 
         {
-          // close any open infoWindow
-          _.each(infoWindows, (oneWindow) => {
-            oneWindow.close();
-          });
-
           // set the data context and create an instance of the card
           networkPageVars.activeCardId.set(document._id);
 
-          infoWindow.setContent( this.info );
+          infoWindow.setContent( contentString );
           infoWindow.open( map.instance, this );
         });
 
@@ -118,118 +142,3 @@ Template.networkMap.onCreated(function()
   });
 });
 
-const drawNetwork = (memberDocument, memberArray, arrowType) => {
-  
-  var arrowProperties;
-
-  if (memberArray) {
-    if (arrowType === 'gives') {
-      arrowProperties = {
-        'arrowColor': '#007f00',
-        'lineArrow': {
-          'path': google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        },
-        'offsetPercent': '20%',
-      };
-    } else {
-      arrowProperties = {
-        'arrowColor': '#FF0000',
-        'lineArrow': {
-          'path': google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        },
-        'offsetPercent': '80%',
-      };
-    }
-
-    // create object to set the bounds of the viewable map
-    const bounds = new google.maps.LatLngBounds();
-
-    // cycle thru the array of members and look up the coordinates to construct the networkLines array
-    _.each(memberArray, (organization) => {
-      const fromOrgDocument = NetworkMembers.findOne({'name': organization});
-
-      if (fromOrgDocument) {
-        const fromOrgLat = fromOrgDocument.lat;
-        const fromOrgLng = fromOrgDocument.lng;
-
-        const lineCoordinates = [
-          {'lat': fromOrgLat, 'lng': fromOrgLng},
-          {'lat': memberDocument.lat, 'lng': memberDocument.lng},
-        ];
-
-        const receivesLine = new google.maps.Polyline({
-          'path': lineCoordinates,
-          'strokeColor': arrowProperties.arrowColor,
-          'strokeOpacity': 1.0,
-          'strokeWeight': 2,
-          'icons': [{
-            'icon': arrowProperties.lineArrow,
-            'offset': arrowProperties.offsetPercent,
-          }],
-        });
-
-        // draw the line on the map
-        receivesLine.setMap(GoogleMaps.maps.networkMap.instance);
-        // store the map
-        networkPageVars.memberNetwork.push(receivesLine);
-        // include the connected member in the bounds
-        const orgPosition = new google.maps.LatLng(fromOrgLat, fromOrgLng);
-        bounds.extend(orgPosition);
-      } else {
-        console.log('could not find: ' + organization);
-      }
-    });
-
-    // render the map with the bounds of connected network
-    //console.log('drawing bounds');
-    if (bounds !== null) {
-      // add main member
-      const orgPosition = new google.maps.LatLng(memberDocument.lat, memberDocument.lng);
-      bounds.extend(orgPosition);
-      
-      // render map
-      resizeMap();
-      GoogleMaps.maps.networkMap.instance.fitBounds(bounds);
-    }
-  }
-};
-
-const hideNetwork = () => {
-  if (networkPageVars.memberNetwork.length > 0) {
-    _.each(networkPageVars.memberNetwork, (line) => {
-      // remove the line from the map
-      line.setMap(null);
-    });
-  }
-  // clear the variable for the next use
-  networkPageVars.memberNetwork = [];
-};
-
-const resizeMap = () => {
-  console.log('resized');
-  // let the map know the div changed size
-  google.maps.event.trigger(GoogleMaps.maps.networkMap.instance, 'resize');
-};
-
-const redrawBounds = () => {
-  // google bounds object to hold points
-  const bounds = new google.maps.LatLngBounds();
-
-  _.each(networkPageVars.boundaryPoints, (boundaryPoint) => {
-    //console.log(boundaryPoint);
-    // add each bound to the google object
-    bounds.extend(boundaryPoint);
-  });
-
-  // render map with bounds
-  console.log("bounds drawn");
-  GoogleMaps.maps.networkMap.instance.fitBounds(bounds);
-};
-
-const centerOnActiveCard = () => {
-  const activeCardDocument = NetworkMembers.findOne({'_id': networkPageVars.activeCardId.get()});
-  const centerLatLng = new google.maps.LatLng(activeCardDocument.lat, activeCardDocument.lng);
-  GoogleMaps.maps.networkMap.instance.setCenter(centerLatLng);
-};
-
-export { drawNetwork, hideNetwork, resizeMap, redrawBounds, centerOnActiveCard};

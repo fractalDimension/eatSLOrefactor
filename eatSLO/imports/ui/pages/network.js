@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
-import '../components/map.js';
+import '../components/map/map.js';
 import '../components/mapFilter.js';
 import '../components/networkCard.js';
 

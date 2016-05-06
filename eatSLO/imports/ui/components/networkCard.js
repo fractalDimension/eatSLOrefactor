@@ -2,7 +2,7 @@ import './networkCard.html';
 
 import { Template } from 'meteor/templating';
 import { NetworkMembers } from '../../api/networkMembers.js';
-import { drawNetwork, hideNetwork, resizeMap, centerOnActiveCard} from './map.js';
+import { mapUtils } from './map/mapUtils.js';
 import { networkPageVars } from '../pages/network.js';
 import $ from 'jquery';
 import 'meteor/semantic:ui';
@@ -19,8 +19,8 @@ Template.networkCard.onRendered( () => {
       'infinite': false,
       'lazyLoad': 'ondemand',
     });
-    resizeMap();
-    centerOnActiveCard();
+    mapUtils.resizeMap();
+    mapUtils.centerOnActiveCard();
   });
   // note 'this' is necessary
   this.$('.cardDropdown').dropdown({
@@ -57,13 +57,13 @@ Template.networkCard.events({
   'click #closeLink': () => {
     $('#mapFilterDiv').slideToggle('slow');
     $('#detail-card').slideToggle('slow', function(){
-      resizeMap();
+      mapUtils.resizeMap();
       networkPageVars.activeCardVisible.set(false);
-      hideNetwork();
+      mapUtils.hideNetwork();
     });
   },
   'click #centerLink': () => {
-    centerOnActiveCard();
+    mapUtils.centerOnActiveCard();
   },
   'click #viewReceives': (event, template) => {
     // TODO add check to see if 'receives' is not null
@@ -73,7 +73,7 @@ Template.networkCard.events({
 
     // subscribe and draw the map once the subscription is ready
     template.subscribe('connectedMembers', memberArray, () => {
-      drawNetwork(memberDocument, memberArray, 'receives');
+      mapUtils.drawNetwork(memberDocument, memberArray, 'receives');
     });
   },
   'click #viewGives': (event, template) => {
@@ -85,7 +85,7 @@ Template.networkCard.events({
     // console.log(memberArray);
     // subscribe and draw the map once the subscription is ready
     template.subscribe('connectedMembers', memberArray, () => {
-      drawNetwork(memberDocument, memberArray, 'gives');
+      mapUtils.drawNetwork(memberDocument, memberArray, 'gives');
     });
   },
 });

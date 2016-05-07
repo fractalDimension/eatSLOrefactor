@@ -11,7 +11,6 @@ Meteor.startup(() => {
     let dummyNetworkMembers = [
       {
         'name': 'Bliss Cafe',
-        'slug': 'bliss-cafe',
         'city': 'San Luis Obispo',
         'accountType': 'preparer',
         // test moving these to a sub-object (might cause trouble with reactivity)
@@ -39,7 +38,6 @@ Meteor.startup(() => {
       },
       {
         'name': 'Chumash Farms',
-        'slug': 'chumash-farms',
         'city': 'Los Osos',
         'accountType': 'grower',
         'lat': 35.322514,
@@ -62,7 +60,6 @@ Meteor.startup(() => {
       },
       {
         'name': "Linaea's",
-        'slug': 'linaeas',
         'city': 'San Luis Obispo',
         'accountType': 'preparer',
         'lat': 35.279123,
@@ -89,7 +86,6 @@ Meteor.startup(() => {
       },
       {
         'name': 'Cal Poly Organic Farm',
-        'slug': 'cal-poly-organic-farm',
         'city': 'San Luis Obispo',
         'accountType': 'grower',
         'lat': 35.298402,
@@ -112,7 +108,6 @@ Meteor.startup(() => {
       },
       {
         'name': 'See Canyon Fruit Ranch',
-        'slug': 'see-canyon-fruit-ranch',
         'city': 'Avila',
         'accountType': 'grower',
         'lat': 35.211889,
@@ -135,7 +130,6 @@ Meteor.startup(() => {
       },
       {
         'name': 'Bear Creek Ranch',
-        'slug': 'bear-creek-ranch',
         'city': 'Los Osos',
         'accountType': 'supplier',
         'lat': 35.280563,
@@ -158,7 +152,6 @@ Meteor.startup(() => {
       },
       {
         'name': 'Good Tides',
-        'slug': 'good-tides',
         'city': 'Los Osos',
         'accountType': 'supplier',
         'lat': 35.327639,

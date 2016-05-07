@@ -7,7 +7,7 @@ import '../../ui/pages/home.js';
 import '../../ui/pages/about.html';
 import '../../ui/pages/network.js'; // correct js loading example
 import '../../ui/pages/search.js';
-import '../../ui/pages/addMember.html';
+import '../../ui/pages/addMember.js';
 import '../../ui/components/nav.html';
 
 

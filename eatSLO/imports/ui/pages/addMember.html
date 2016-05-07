@@ -1,0 +1,28 @@
+<template name="addMemberPage">
+	<div class="ui text container">
+      <h1>Enter a new Member</h1>
+      {{#autoForm collection=Members id="itemsMemberForm" type="insert" template="semanticUI"}}
+         <fieldset>
+            {{> afQuickField name='name'}}
+            {{> afQuickField name='city' options=cityOptions}}
+            {{> afQuickField name='lat'}}
+            {{> afQuickField name='lng'}}
+            {{> afQuickField name='accountType' options=accountOptions}}
+            <h4 class="ui top attached block header">Network</h4>
+            <div class="ui attached segment">
+               {{> afQuickField name='network.gives.name' class='multiSelect ui dropdown' multiple=true options=nameOptions}}
+               {{> afQuickField name='network.receives.name' class='multiSelect ui dropdown' multiple=true options=nameOptions}}
+            </div>
+            <h4 class="ui top attached block header">Profile</h4>
+            <div class="ui attached segment">
+               {{> afQuickField name='profile.address'}}
+               {{> afQuickField name='profile.website'}}
+               {{> afQuickField name='profile.description'}}
+               {{> afQuickField name='profile.owner'}}
+               {{> afQuickField name='profile.story' rows=4}}
+            </div>
+         </fieldset>
+         <button type="submit" class="ui primary button">Insert</button>
+      {{/autoForm}}
+   </div>
+</template>

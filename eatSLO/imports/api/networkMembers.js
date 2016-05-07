@@ -16,6 +16,10 @@ if (Meteor.isServer) {
 		return NetworkMembers.find();
   });
 
+  Meteor.publish('networkMemberNames', function networkMemberPublication() {
+    return NetworkMembers.find({}, {'fields': {'name': 1}});
+  });
+
   Meteor.publish( 'memberSearch', function( search ) {
     check( search, Match.OneOf( String, null, undefined ) );
 
@@ -123,17 +127,13 @@ let NetworkMembersSchema = new SimpleSchema({
     type: String,
     label: 'The name of the organization.'
   },
-  'slug': {
-    type: String,
-    label: 'URL friendly name.'
-  },
   'city': {
     type: String,
     label: 'The city where the organization lives.'
   },
   'accountType': {
     type: String,
-    label: 'One(?) of three(?) types the organization can be.'
+    label: 'Type of organization.'
   },
   'lat': {
     type: Number,
@@ -160,7 +160,8 @@ let NetworkMembersSchema = new SimpleSchema({
   },
   'profile.description': {
     type: String,
-    label: 'A short description.'
+    label: 'A short description.',
+    'max': 10,
   },
   'profile.owner': {
     type: String,
@@ -189,12 +190,12 @@ let NetworkMembersSchema = new SimpleSchema({
   },
   'network.receives.name': {
     type: [String],
-    label: 'Receiver name.',
+    label: 'Receives from',
     'optional': true
   },
   'network.gives.name': {
     type: [String],
-    label: 'Giver name.',
+    label: 'Gives to',
     'optional': true,
   },
 });

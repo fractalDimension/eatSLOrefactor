@@ -1,7 +1,37 @@
 <template name="addMemberPage">
 	<div class="ui text container">
-      <h1>Enter a new Member</h1>
-      {{#autoForm collection=Members id="itemsMemberForm" type="insert" template="semanticUI"}}
+      <h1>Add/Edit Members</h1>
+      <p>Select an existing member from the dropdown or click "Add New"</p>
+      <p>Notes:
+         <ul>
+            <li>Heres a link to help with the lat/lng: <a href="http://www.latlong.net/convert-address-to-lat-long.html">LatLong.net</a></li>
+            <li>You can only give/receive to people who are already on the network. A new feature to add new members will eventually be added</li>
+            <li>The insert/update/delete methods are somewhat insecure. This is protected by user accounts for now.</li>
+         </ul>
+      </p>
+      <div class="ui segment">
+         <div class="ui two column grid">
+            <div class="center aligned column">
+               <div class="ui fluid search selection dropdown" id="memberSelectDropdown">
+                  <input type="hidden" name="member">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Network Member</div>
+                  <div class="menu">
+                     {{#each memberArray}}
+                        <div class="item" data-value={{_id}}>{{name}}</div>
+                     {{/each}}
+                  </div>
+               </div>
+            </div>
+            <div class="ui vertical divider">
+               Or
+            </div>
+            <div class="center aligned column">
+               <button class="ui primary button" id="addNewButton">Add New</button>
+            </div>
+         </div>
+      </div>
+      {{#autoForm type=formType collection=memberCollection doc=memberDoc id="itemsMemberForm"  meteormethod=formMethod template="semanticUI"}}
          <fieldset>
             {{> afQuickField name='name'}}
             {{> afQuickField name='city' options=cityOptions}}
@@ -11,7 +41,7 @@
             <h4 class="ui top attached block header">Network</h4>
             <div class="ui attached segment">
                {{> afQuickField name='network.gives.name' class='multiSelect ui dropdown' multiple=true options=nameOptions}}
-               {{> afQuickField name='network.receives.name' class='multiSelect ui dropdown' multiple=true options=nameOptions}}
+               {{> afQuickField name='network.receives.name' class='multiSelect ui dropdown' multiple=true options=nameOptions }}
             </div>
             <h4 class="ui top attached block header">Profile</h4>
             <div class="ui attached segment">
@@ -22,7 +52,12 @@
                {{> afQuickField name='profile.story' rows=4}}
             </div>
          </fieldset>
-         <button type="submit" class="ui primary button">Insert</button>
+         {{#if docPresent}}
+            <button type="submit" class="ui primary button">Update Member</button>
+            <button class="negative ui button" id="deleteButton">REMOVE</button>
+         {{else}}
+            <button type="submit" class="ui primary button">Add Member</button>
+         {{/if}}
       {{/autoForm}}
    </div>
 </template>

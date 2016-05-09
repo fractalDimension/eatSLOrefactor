@@ -11,7 +11,6 @@ import '../../ui/pages/addMember.js';
 import '../../ui/components/nav.html';
 
 
-
 FlowRouter.route('/', {
   action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "homePage"});
@@ -37,6 +36,7 @@ FlowRouter.route('/search', {
 });
 
 FlowRouter.route('/addMember', {
+  'triggersEnter': [AccountsTemplates.ensureSignedIn],
   action() {
     BlazeLayout.render("mainLayout", {top: "navBar", content: "addMemberPage"});
   }

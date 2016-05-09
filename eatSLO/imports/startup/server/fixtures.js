@@ -176,7 +176,7 @@ Meteor.startup(() => {
     ];
 
     _.each(dummyNetworkMembers, function(account) {
-      NetworkMembers.insert(account);
+      Meteor.call('insertMember', account);
     });
   }
 

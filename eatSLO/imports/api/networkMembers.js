@@ -16,10 +16,6 @@ if (Meteor.isServer) {
 		return NetworkMembers.find();
   });
 
-  Meteor.publish('networkMemberNames', function networkMemberPublication() {
-    return NetworkMembers.find({}, {'fields': {'name': 1}});
-  });
-
   Meteor.publish( 'memberSearch', function( search ) {
     check( search, Match.OneOf( String, null, undefined ) );
 
@@ -107,7 +103,7 @@ if (Meteor.isServer) {
 }
 
 //next two sections enforce db operations to only happen via methods server side
-/*
+
 NetworkMembers.allow({
 	insert: () => false,
 	update: () => false,
@@ -119,7 +115,30 @@ NetworkMembers.deny({
 	update: () => true,
 	remove: () => true
 });
-*/
+
+
+Meteor.methods({
+  'insertMember': (doc) => {
+    check( doc, NetworkMembers.simpleSchema() );
+
+    NetworkMembers.insert(doc);
+    console.log('member added: ' + doc.name);
+  },
+  'deleteMember': (docId) => {
+    // TODO change this check to be for user permision
+    // check( doc, NetworkMembers.simpleSchema() );
+
+    NetworkMembers.remove(docId);
+    console.log('doc delete');
+  },
+  'updateMember': (modifier, documentId) => {
+    // TODO change this check to be for user permision and data integrity
+    // check( doc, NetworkMembers.simpleSchema() );
+
+    NetworkMembers.update(documentId, modifier);
+    console.log('doc updated');
+  },
+});
 
 //create schema rules for db
 let NetworkMembersSchema = new SimpleSchema({
@@ -160,8 +179,7 @@ let NetworkMembersSchema = new SimpleSchema({
   },
   'profile.description': {
     type: String,
-    label: 'A short description.',
-    'max': 10,
+    label: 'A short description. (One or two sentences)',
   },
   'profile.owner': {
     type: String,
